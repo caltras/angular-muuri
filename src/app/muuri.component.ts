@@ -32,6 +32,9 @@ export class MuuriComponent implements OnInit, AfterViewInit  {
       layoutEasing: 'ease',
       dragEnabled: true,
       dragSortInterval: 0,
+      dragStartPredicate: {
+        handle: '.item-muuri-header'
+      },
       dragContainer: element,
       dragReleaseDuration: 400,
       dragReleaseEasing: 'ease',
@@ -61,5 +64,9 @@ export class MuuriComponent implements OnInit, AfterViewInit  {
     if (i){
       this.grid.remove(i.element);
     }
+  }
+  resizeItem(item){
+    this.grid.layout();
+    this.grid.refreshItems();
   }
 }

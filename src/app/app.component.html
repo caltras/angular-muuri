@@ -2,7 +2,8 @@
   <div item-muuri [id]="item.id" 
     *ngFor="let item of items; let idx = index" 
     [width]="item.width" [height]="item.height"
-    (onClick)="removeItem(item)">
+    (onClick)="removeItem(item)"
+    (onResize)="grid.resizeItem(item)">
     <div id="chart-{{idx}}" style="height:100%;width:100%"></div>
   </div>
 </div>

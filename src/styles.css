@@ -33,10 +33,22 @@ document, html, body {
   height: 100%;
 }
 .item-muuri-header{
-  position: absolute;
-  right: 0px;
-  
+  display:flex;
+  width:100%;
   z-index:100;
+  height:20px;
+  cursor:move;
+}
+
+.item-muuri-header > div{
+  flex: 1;
+}
+.item-muuri-header > .actions{
+  display: flex;
+  flex-basis: 100px;
+  justify-content: flex-end;
+  align-content: flex-end;
+  max-width: 100px;
 }
 .item-muuri-header .btn{
   background:white;
@@ -46,4 +58,10 @@ document, html, body {
   outline: none;
   cursor: pointer;
   z-index:1000;
+}
+.item-inner-content{
+  /* flex: 1 1; */
+  display: block;
+  width:100%;
+  height: calc(100% - 20px);
 }

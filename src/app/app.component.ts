@@ -19,7 +19,6 @@ export class AppComponent implements OnInit  {
 
   
   ngOnInit(){
-    console.log(this.grid);
     for(let i=0; i <this.size; i++){
       let height = Math.random()*1000
       height = height < 400 ? 400 : height;
@@ -35,7 +34,6 @@ export class AppComponent implements OnInit  {
     }, 1000);
   }
   removeItem(item){
-    console.log(item);
     if(this.grid){
       const idx = this.items.findIndex( (value) => {
         return item.id === value.id;
