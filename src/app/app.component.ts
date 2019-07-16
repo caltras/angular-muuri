@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import Muuri from 'muuri';
 import Highcharts from 'highcharts';
+import { MuuriComponent }  from './muuri.component';
 
 @Component({
   selector: 'my-app',
@@ -9,11 +10,16 @@ import Highcharts from 'highcharts';
 })
 export class AppComponent implements OnInit  {
   name = 'Angular';
-  size: number = 10;
+  size: number = 5;
   colors = ["blue","green", "gray", "red", "yellow"];
   items = [];
+
+  @ViewChild(MuuriComponent, {static: true})
+  grid: MuuriComponent;
+
   
   ngOnInit(){
+    console.log(this.grid);
     for(let i=0; i <this.size; i++){
       let height = Math.random()*1000
       height = height < 400 ? 400 : height;
@@ -28,8 +34,20 @@ export class AppComponent implements OnInit  {
       }
     }, 1000);
   }
+  removeItem(item){
+    console.log(item);
+    if(this.grid){
+      const idx = this.items.findIndex( (value) => {
+        return item.id === value.id;
+      });
+      if(idx > -1) {
+        this.items.splice(idx,1);
+      }
+      this.grid.removeItem(item);
+    }
+    
+  }
   createChart(id){
-    console.log(id);
     Highcharts.chart(id, {
 
           title: {

@@ -1,6 +1,8 @@
-<div muuri class="grid" style="border:solid 1px black;">
+<div muuri #grid class="grid">
   <div item-muuri [id]="item.id" 
-    *ngFor="let item of items; let idx = index" [width]="item.width" [height]="item.height">
+    *ngFor="let item of items; let idx = index" 
+    [width]="item.width" [height]="item.height"
+    (onClick)="removeItem(item)">
     <div id="chart-{{idx}}" style="height:100%;width:100%"></div>
   </div>
 </div>

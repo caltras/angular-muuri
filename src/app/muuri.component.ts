@@ -2,6 +2,7 @@ import { Component, Directive, OnInit, ElementRef, AfterViewInit, AfterContentIn
 import {ItemMuuriComponent} from './item-muuri.component';
 import Muuri from 'muuri';
 
+
 @Component({
   selector: '[muuri]',
   template: `<ng-content></ng-content>`,
@@ -9,7 +10,7 @@ import Muuri from 'muuri';
     items: new ContentChildren(ItemMuuriComponent),
   }
 })
-export class MuuriComponent implements OnInit, AfterViewInit, AfterContentInit  {
+export class MuuriComponent implements OnInit, AfterViewInit  {
 
   private items: QueryList<ItemMuuriComponent> = new QueryList<ItemMuuriComponent>();
   private grid: Muuri;
@@ -19,6 +20,7 @@ export class MuuriComponent implements OnInit, AfterViewInit, AfterContentInit  
     this.items.changes.subscribe( () =>{
       console.log("Changed ")
     });
+    
   }
   ngAfterViewInit(){
     var element = this.ref.nativeElement;
@@ -33,12 +35,34 @@ export class MuuriComponent implements OnInit, AfterViewInit, AfterContentInit  
       layoutEasing: 'ease',
       dragEnabled: true,
       dragSortInterval: 0,
-      dragContainer: document.body,
+      dragContainer: element,
       dragReleaseDuration: 400,
-      dragReleaseEasing: 'ease'
+      dragReleaseEasing: 'ease',
+      dragCssProps: {
+        touchAction: 'none',
+        userSelect: 'none',
+        userDrag: 'none',
+        tapHighlightColor: 'rgba(0, 0, 0, 0)',
+        touchCallout: 'none',
+        contentZooming: 'none'
+      },
+      dragPlaceholder: {
+        enabled: true,
+        duration: 300,
+        easing: 'ease',
+        createElement: null,
+        onCreate: null,
+        onRemove: null
+      },
+      itemHiddenClass: 'muuri-item-hidden',
     });
   }
-  ngAfterContentInit(){
-
+  removeItem(item){
+    const i = this.items.find( (value) => {
+      return item.id === value.id;
+    })
+    if (i){
+      this.grid.remove(i.element);
+    }
   }
 }
