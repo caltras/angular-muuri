@@ -4,6 +4,8 @@
     [width]="item.width" [height]="item.height"
     (onClick)="removeItem(item)"
     (onResize)="grid.resizeItem(item)">
-    <div id="chart-{{idx}}" style="height:100%;width:100%"></div>
+    <div>
+      Content {{item.id}}
+    </div>
   </div>
 </div>
