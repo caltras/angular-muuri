@@ -1,6 +1,6 @@
 <div muuri class="grid" style="border:solid 1px black;">
-  <div item-muuri [id]="idx" 
-    [ngStyle]="{'background-color': colors[idx%5]}" *ngFor="let i of [].constructor(size); let idx = index">
-    <div id="chart-{{idx}}"></div>
+  <div item-muuri [id]="item.id" 
+    *ngFor="let item of items; let idx = index" [width]="item.width" [height]="item.height">
+    <div id="chart-{{idx}}" style="height:100%;width:100%"></div>
   </div>
 </div>

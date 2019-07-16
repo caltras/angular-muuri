@@ -11,8 +11,17 @@ export class AppComponent implements OnInit  {
   name = 'Angular';
   size: number = 10;
   colors = ["blue","green", "gray", "red", "yellow"];
+  items = [];
   
   ngOnInit(){
+    for(let i=0; i <this.size; i++){
+      let height = Math.random()*1000
+      height = height < 400 ? 400 : height;
+      let width = Math.random()*1000
+      width = width < 200 ? 200 : width;
+      let id = i;
+      this.items.push({id, width, height});
+    }
     setTimeout( ()=>{
       for(let i=0; i <this.size; i++){
         this.createChart('chart-'+i);
