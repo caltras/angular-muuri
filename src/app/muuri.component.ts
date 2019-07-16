@@ -17,9 +17,6 @@ export class MuuriComponent implements OnInit, AfterViewInit  {
 
   constructor(private ref: ElementRef){}
   ngOnInit(){
-    this.items.changes.subscribe( () =>{
-      console.log("Changed ")
-    });
     
   }
   ngAfterViewInit(){

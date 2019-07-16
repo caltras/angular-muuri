@@ -42,7 +42,6 @@ export class ItemMuuriComponent implements OnInit {
     const button = this.element.querySelector('button');
     
     if (button) {
-      console.log(button);
       const source = fromEvent(button, 'click');
 
       source.subscribe( (evt)=>{
