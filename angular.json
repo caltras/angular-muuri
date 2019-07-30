@@ -3,9 +3,44 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "demo": {
-      "root": "",
-      "sourceRoot": "src",
+    "angular-muuri": {
+      "root": "projects/angular-muuri",
+      "sourceRoot": "projects/angular-muuri/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/angular-muuri/tsconfig.lib.json",
+            "project": "projects/angular-muuri/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-muuri/src/test.ts",
+            "tsConfig": "projects/angular-muuri/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-muuri/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/angular-muuri/tsconfig.lib.json",
+              "projects/angular-muuri/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "angular-muuri-demo": {
+      "root": "projects/angular-muuri-demo/",
+      "sourceRoot": "projects/angular-muuri-demo/src",
       "projectType": "application",
       "prefix": "app",
       "schematics": {},
@@ -13,26 +48,27 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/demo",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.app.json",
+            "outputPath": "dist/angular-muuri-demo",
+            "index": "projects/angular-muuri-demo/src/index.html",
+            "main": "projects/angular-muuri-demo/src/main.ts",
+            "polyfills": "projects/angular-muuri-demo/src/polyfills.ts",
+            "tsConfig": "projects/angular-muuri-demo/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/angular-muuri-demo/src/favicon.ico",
+              "projects/angular-muuri-demo/src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "projects/angular-muuri-demo/src/styles.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "es5BrowserSupport": true
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "projects/angular-muuri-demo/src/environments/environment.ts",
+                  "with": "projects/angular-muuri-demo/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -43,41 +79,48 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "angular-muuri-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "demo:build:production"
+              "browserTarget": "angular-muuri-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demo:build"
+            "browserTarget": "angular-muuri-demo:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "main": "projects/angular-muuri-demo/src/test.ts",
+            "polyfills": "projects/angular-muuri-demo/src/polyfills.ts",
+            "tsConfig": "projects/angular-muuri-demo/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-muuri-demo/karma.conf.js",
             "styles": [
-              "styles.css"
+              "projects/angular-muuri-demo/src/styles.css"
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/angular-muuri-demo/src/favicon.ico",
+              "projects/angular-muuri-demo/src/assets"
             ]
           }
         },
@@ -85,9 +128,37 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
+              "projects/angular-muuri-demo/tsconfig.app.json",
+              "projects/angular-muuri-demo/tsconfig.spec.json"
             ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "angular-muuri-demo-e2e": {
+      "root": "projects/angular-muuri-demo-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/angular-muuri-demo-e2e/protractor.conf.js",
+            "devServerTarget": "angular-muuri-demo:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "angular-muuri-demo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/angular-muuri-demo-e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
@@ -96,5 +167,5 @@
       }
     }
   },
-  "defaultProject": "demo"
+  "defaultProject": "angular-muuri"
 }
