@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "muuri-build": "ng build angular-muuri"
+    "muuri-build": "ng build angular-muuri",
+    "watch-lib-build": "nodemon --watch src/lib --exec \"npm run muuri-build\""
   },
   "private": true,
   "dependencies": {

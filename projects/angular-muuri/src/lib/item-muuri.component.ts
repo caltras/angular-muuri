@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import {fromEvent} from 'rxjs';
+import {fromEvent, BehaviorSubject, timer} from 'rxjs';
 import interact from 'interactjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: '[muuri-item]',
@@ -97,10 +98,8 @@ import interact from 'interactjs';
 export class ItemMuuriComponent implements OnInit {
   @Input()
   id: string;
-  @Input()
-  width: number;
-  @Input()
-  height: number;
+  private $width: number;
+  private $height: number;
   // tslint:disable-next-line: no-output-on-prefix
   @Output()
   onClick: EventEmitter<any> = new EventEmitter();
@@ -108,10 +107,36 @@ export class ItemMuuriComponent implements OnInit {
   @Output()
   onResize: EventEmitter<any> = new EventEmitter();
 
+  @Output()
+  changeSize: BehaviorSubject<boolean> = new BehaviorSubject(true);
+
   element: any;
 
   constructor(private ref: ElementRef) {}
+  @Input()
+  set width(value: number) {
+    this.$width = value;
+    if (this.element) {
+      this.element.style.width = Math.ceil(this.$width) + 'px';
+      this.changeSize.next(true);
+    }
+  }
 
+  get width(){
+    return this.$width;
+  }
+
+  @Input()
+  set height(value: number) {
+    this.$height = value;
+    if (this.element) {
+      this.element.style.height = Math.ceil(this.$height) + 'px';
+      this.changeSize.next(true);
+    }
+  }
+  get height(){
+    return this.$height;
+  }
   ngOnInit() {
 
     this.element = this.ref.nativeElement;
@@ -121,11 +146,11 @@ export class ItemMuuriComponent implements OnInit {
       this.element.setAttribute('item-muuri-id', this.id);
     }
     this.element.classList.add('item');
-    if (this.width) {
-      this.element.style.width = Math.ceil(this.width) + 'px';
+    if (this.$width) {
+      this.element.style.width = Math.ceil(this.$width) + 'px';
     }
-    if (this.height) {
-      this.element.style.height = Math.ceil(this.height) + 'px';
+    if (this.$height) {
+      this.element.style.height = Math.ceil(this.$height) + 'px';
     }
     this.element.style.border = 'solid 1px black';
     const button = this.element.querySelector('button');
@@ -180,7 +205,10 @@ export class ItemMuuriComponent implements OnInit {
         x += event.deltaRect.left;
         y += event.deltaRect.top;
 
-        self.onResize.emit(target);
+        this.$width = event.rect.width;
+        this.$height = event.rect.height;
+        self.changeSize.next(true);
+        self.onResize.emit(this);
       });
   }
 }

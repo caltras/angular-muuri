@@ -4,6 +4,8 @@
 }
 .item-inner-content{
   padding:10px;
+  width: auto !important;
+  height: auto !important;
 }
 .yellow {
   border-color: #f9d64a !important;

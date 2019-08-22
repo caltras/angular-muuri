@@ -1,6 +1,8 @@
 import { Component, Directive, OnInit, ElementRef, AfterViewInit, QueryList, ContentChildren, Input, Optional } from '@angular/core';
 import {ItemMuuriComponent} from './item-muuri.component';
 import Muuri from 'muuri';
+import { forkJoin, timer, race, combineLatest } from 'rxjs';
+import { take } from 'rxjs/operators';
 const defaultOptions = {
   layout: {
     fillGaps: true,
@@ -58,8 +60,8 @@ export class MuuriComponent implements OnInit, AfterViewInit  {
       items: this.items.map((el: ItemMuuriComponent) => el.element),
       dragContainer: element,
     };
-    this.options = window['muuriOptions'] = Object.assign( properties, this.options, defaultOptions);
-    this.grid = new Muuri(element, this.options);
+    this.options = window['options'] = Object.assign( properties, defaultOptions, this.options);
+    this.grid = window['grid'] = new Muuri(element, this.options);
     this.grid.on('dragStart', () => {
       ++dragCounter;
       docElem.classList.add('dragging');
@@ -68,6 +70,12 @@ export class MuuriComponent implements OnInit, AfterViewInit  {
       if (--dragCounter < 1) {
         docElem.classList.remove('dragging');
       }
+    });
+
+    combineLatest(this.items.map( i => i.changeSize))
+    .subscribe ( () => {
+      this.grid.refreshItems();
+      this.grid.layout();
     });
   }
   removeItem(item) {
@@ -78,7 +86,9 @@ export class MuuriComponent implements OnInit, AfterViewInit  {
       this.grid.remove(i.element);
     }
   }
-  resizeItem(item) {
+  resizeItem(e, item) {
+    item.width = e.width;
+    item.height = e.height;
     this.grid.layout();
     this.grid.refreshItems();
   }

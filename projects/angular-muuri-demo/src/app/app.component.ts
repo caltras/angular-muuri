@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     for (let i = 0; i < this.size; i++) {
       let height = Math.random() * 500;
-      height = height < 400 ? 400 : height;
+      height = 400; //height < 400 ? 400 : height;
       let width = Math.random() * 1000;
       width = width < 200 ? 200 : width;
       const id = i;
@@ -35,5 +35,15 @@ export class AppComponent implements OnInit {
       }
       this.grid.removeItem(item);
     }
+  }
+  addWidth(item) {
+    item.width += 100;
+  }
+  addHeight(item) {
+    item.height += 100;
+  }
+  updateItem(e, item){
+    item.width = e.width;
+    item.height = e.height;
   }
 }

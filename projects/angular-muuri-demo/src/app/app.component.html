@@ -1,13 +1,20 @@
-<div muuri-grid #grid class="grid">
+<div muuri-grid #grid class="grid" [options]="{layout: { fillGaps: false } }">
   <div muuri-item [id]="item.id"
     *ngFor="let item of items; let idx = index"
     [width]="item.width"
     [height]="item.height"
     (onClick)="removeItem(item)"
-    (onResize)="grid.resizeItem(item)"
+    (onResize)="updateItem($event, item)"
     [ngClass]="item.borderColor">
     <div>
       Content {{item.id}}
+      <br>
+      <button (click)="addWidth(item)">
+        Width +
+      </button>
+      <button (click)="addHeight(item)">
+        Height +
+      </button>
     </div>
   </div>
 </div>
