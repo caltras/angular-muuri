@@ -1,0 +1,22 @@
+.item-muuri-header{
+  height:40px;
+  border-bottom: solid 1px #ccc;
+}
+.item-inner-content{
+  padding:10px;
+}
+.yellow {
+  border-color: #f9d64a !important;
+}
+.red {
+  border-color: #f94a7a !important;
+}
+.green {
+  border-color: #2ac06d !important;
+}
+.blue {
+  border-color: #4A9FF9 !important;
+}
+.gray {
+  border-color: #3f3f3f !important;
+}

@@ -21,7 +21,8 @@ export class AppComponent implements OnInit {
       let width = Math.random() * 1000;
       width = width < 200 ? 200 : width;
       const id = i;
-      this.items.push({id, width, height});
+      const borderColor = this.colors[Math.floor(Math.random() * this.colors.length)];
+      this.items.push({id, width, height, borderColor });
     }
   }
   removeItem(item) {

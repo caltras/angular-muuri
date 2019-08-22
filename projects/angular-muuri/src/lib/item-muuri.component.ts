@@ -11,19 +11,33 @@ import interact from 'interactjs';
       margin: 5px;
       z-index: 1;
       border-radius:4px;
-      border: solid 2px black !important;
+      border-width: 2px !important;
       padding: 2px;
       background: white;
     }
     :host.muuri-item-dragging {
       z-index: 3;
-      border: dashed 2px black !important;
+      border-style: dashed !important;
     }
     :host.muuri-item-releasing {
       z-index: 2;
     }
     :host.muuri-item-hidden {
       z-index: 0;
+    }
+    :host.muuri-item-dragging .card-remove,
+    :host.muuri-item-positioning .card-remove,
+    :host.muuri-item-releasing .card-remove,
+    :host.muuri-item-placeholder .card-remove {
+      display: none;
+    }
+    :host.muuri-item-placeholder .card {
+      border-style: dashed;
+    }
+    :host.muuri-item-placeholder {
+      z-index: 2;
+      margin: 0;
+      opacity: 0.5;
     }
     .item-content {
       position: relative;
@@ -36,8 +50,11 @@ import interact from 'interactjs';
       z-index:100;
       height:20px;
       cursor:move;
+      transition: all .2s;
     }
-
+    .item-muuri-header:hover{
+      background-color: rgba(161,161,161,.05);
+    }
     .item-muuri-header > div{
       flex: 1;
     }
@@ -49,7 +66,7 @@ import interact from 'interactjs';
       max-width: 100px;
     }
     .item-muuri-header .btn{
-      background:white;
+      background: transparent;
       border: none;
       font-weight:bold;
       color: black;
@@ -63,6 +80,7 @@ import interact from 'interactjs';
       width:100%;
       height: calc(100% - 20px);
     }
+
   `],
   template: `<div id="item-muuri-id-{{id}}" class="item-content">
               <div class="item-muuri-header" >

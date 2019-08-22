@@ -1,7 +1,6 @@
 import { Component, Directive, OnInit, ElementRef, AfterViewInit, QueryList, ContentChildren, Input, Optional } from '@angular/core';
 import {ItemMuuriComponent} from './item-muuri.component';
 import Muuri from 'muuri';
-
 const defaultOptions = {
   layout: {
     fillGaps: true,
@@ -16,23 +15,14 @@ const defaultOptions = {
   },
   dragReleaseDuration: 400,
   dragReleaseEasing: 'ease',
-  dragCssProps: {
-    touchAction: 'none',
-    userSelect: 'none',
-    userDrag: 'none',
-    tapHighlightColor: 'rgba(0, 0, 0, 0)',
-    touchCallout: 'none',
-    contentZooming: 'none'
-  },
   dragPlaceholder: {
     enabled: true,
     duration: 300,
     easing: 'ease',
-    createElement: null,
-    onCreate: null,
-    onRemove: null
-  },
-  itemHiddenClass: 'muuri-item-hidden'
+    createElement: (item) => {
+      return item.getElement().cloneNode(true);
+    }
+  }
 };
 
 
@@ -60,15 +50,25 @@ export class MuuriComponent implements OnInit, AfterViewInit  {
   ngOnInit() {}
 
   ngAfterViewInit() {
+    let dragCounter = 0;
+    const docElem = document.documentElement;
     const element = this.ref.nativeElement;
 
     const properties = {
       items: this.items.map((el: ItemMuuriComponent) => el.element),
       dragContainer: element,
     };
-    this.options = Object.assign( properties, this.options, defaultOptions);
+    this.options = window['muuriOptions'] = Object.assign( properties, this.options, defaultOptions);
     this.grid = new Muuri(element, this.options);
-
+    this.grid.on('dragStart', () => {
+      ++dragCounter;
+      docElem.classList.add('dragging');
+    })
+    .on('dragEnd', () => {
+      if (--dragCounter < 1) {
+        docElem.classList.remove('dragging');
+      }
+    });
   }
   removeItem(item) {
     const i = this.items.find( (value) => {
